@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Sidebar from "./components/navbar/Sidebar";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Home from "./components/pages/Home";
+import Car from "./components/pages/Car";
 
 function App() {
+  const [car, setCar] = useState({});
+
+  const getCar = (auto) => {
+    console.log("A car is clicked:", auto);
+    setCar(auto);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Sidebar clickCar={getCar} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route
+            exact
+            path="/car"
+            render={(props) => <Car carToShow={car} />}
+          ></Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
